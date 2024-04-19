@@ -10,7 +10,7 @@ import {
   persistStore,
 } from "redux-persist";
 import rootReducer, { rootPersistConfig } from "./root-reducer";
-import { baseApiSlice } from "./api/base-api";
+import { baseApiSlice, mapboxBaseApiSlice } from "./api/base-api";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 // const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
@@ -23,14 +23,15 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
       //   immutableCheck: false,
-    }).concat(baseApiSlice.middleware),
+    })
+      .concat(baseApiSlice.middleware)
+      .concat(mapboxBaseApiSlice.middleware),
 
   devTools: process.env.NODE_ENV !== "production",
 });
 
 // enable listener behavior for the store
 setupListeners(store.dispatch);
-
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
