@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import WeatherInfoRow from "./weather-info-row";
 import WeatherDegree from "./weather-degree";
+import { Separator } from "@/components/ui/separator";
 
 interface IProps {
   feelsLike: number;
@@ -37,6 +38,7 @@ const CurrentWeatherDetails = ({
         <Temperature value={feelsLike} />
         <sup>&deg;</sup>
       </div>
+      <Separator />
       <div className="flex items-center gap-6">
         <WeatherDegree
           icon={<ArrowBigUp color="rgb(161,185,206)" size={40} />}

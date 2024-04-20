@@ -5,15 +5,12 @@ import { RootState } from "@/redux/store";
 import { useGetForecastWeatherQuery } from "@/redux/services/get-weather.api-slice";
 import moment from "moment";
 import { setForecast } from "@/redux/slices/weather-slice";
-import { round } from "@/lib/utils";
 
 const WeatherForecast: React.FC = () => {
   // const [forecast, setForecast] = useState<any[]>([]);
 
   const dispatch = useDispatch();
-  const { id, image, image_name, lat, long, place, weather } = useSelector(
-    (state: RootState) => state.weather
-  );
+  const { lat, long } = useSelector((state: RootState) => state.weather);
 
   const {
     data: weatherData,
@@ -22,9 +19,6 @@ const WeatherForecast: React.FC = () => {
     isError: isWeatherError,
   } = useGetForecastWeatherQuery({ lat, long });
 
-  console.log("forecast weather data: ", weatherData);
-
-
   useEffect(() => {
     if (weatherData) {
       let id = `${weatherData.city.id}`;
@@ -32,11 +26,11 @@ const WeatherForecast: React.FC = () => {
     }
   }, [weatherData, dispatch, lat, long]);
 
-  //   if (isInitial) return <></>;
-
   return (
-    <div className="w-full space-y-4 bg-[rgb(255,255,255,0.6)] py-12 px-20 border border-border rounded-lg shadow-md">
-      <p className="text-2xl font-medium text-[hsla(216,10%,48%,1)]">Extended Forecast</p>
+    <div className="w-full space-y-4 bg-[rgb(255,255,255,0.6)] py-6 md:py-12 px-8 md:px-16 border border-border rounded-lg shadow-md">
+      <p className="text-2xl font-medium text-[hsla(216,10%,48%,1)]">
+        Extended Forecast
+      </p>
       <div className="grid grid-cols-2 md:grid-cols-5 items-center justify-between gap-4">
         {weatherData?.list?.map((item, idx) => {
           if (item.dt_txt.includes("12:00:00")) {

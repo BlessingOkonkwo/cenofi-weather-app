@@ -15,16 +15,13 @@ import { setPlaces } from "@/redux/slices/history-slice";
 import { useGetLatLongQuery } from "@/redux/services/get-location.api-slice";
 import { useGetCurrentWeatherQuery } from "@/redux/services/get-weather.api-slice";
 import { round } from "@/lib/utils";
-import { ComboboxDropdownMenu } from "@/pattern/molecules/combobox-dropdown";
 import Spinner from "@/pattern/atoms/icons/spinner";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { id, image, image_name, lat, long, place, weather } = useSelector(
+  const { lat, long } = useSelector(
     (state: RootState) => state.weather
   );
-
-  console.log("place: ", place)
 
   const {
     data: location,
@@ -43,10 +40,6 @@ export default function Home() {
     isError: isWeatherError,
   } = useGetCurrentWeatherQuery({ lat, long });
 
-  console.log("weather data: ", weatherData);
-
-  console.log("location: ", location);
-
   useEffect(() => {
     if (!lat && !long) {
       navigator.geolocation.getCurrentPosition(
@@ -59,7 +52,7 @@ export default function Home() {
           );
         },
         function (error) {
-          // paris added by default
+          // abuja added by default
           dispatch(setLocation({ lat: 9.0570752, long: 7.4514432 }));
         }
       );
@@ -87,9 +80,6 @@ export default function Home() {
       ) : (
         <WeatherTemplate />
       )}
-      {/* <div className="fixed top-0 left-0 w-full h-full bg-[rgb(0,0,0,.5)] flex flex-col justify-center items-center">
-        <Spinner />
-      </div> */}
     </main>
   );
 }

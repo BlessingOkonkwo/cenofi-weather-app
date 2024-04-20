@@ -33,7 +33,7 @@ export default function RootLayout({
     <html lang="en" className={`${montserrat.variable}`}>
       <body className={`${montserrat.variable}`}>
         <Providers>
-          <div className=" w-full min-h-screen h-full flex flex-col items-center p-20 text-base">
+          <div className=" w-full min-h-screen h-full flex flex-col items-center p-6 sm:p-14 md:-p20 text-base">
             <main className="w-full bg-whie rounded-l borde border-borde shadow-l p-">
               {children}
             </main>

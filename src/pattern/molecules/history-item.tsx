@@ -18,8 +18,6 @@ const HistoryItem: FC<ItemProps> = ({ place }) => {
     long: place.long,
   });
 
-  console.log(place.name)
-
   const { tempUnit } = useSelector((state: RootState) => state.globalState);
 
   return (

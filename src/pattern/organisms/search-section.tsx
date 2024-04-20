@@ -2,24 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { MapPin } from "lucide-react";
 import SearchInput from "../molecules/search-input";
 import "mapbox-gl/dist/mapbox-gl.css";
-import {
-  FormProvider,
-  SubmitErrorHandler,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
 import { useGetSuggestionsQuery } from "@/redux/services/get-suggestions.api-slice";
 import { searchSuggestion } from "@/lib/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { setLocation, setPlace } from "@/redux/slices/weather-slice";
-import { ComboboxDropdownMenu } from "../molecules/combobox-dropdown";
 
 const SearchSection = () => {
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string>("");
-  const [selectedIndex, setSelectedIndex] = useState(-1);
-  const { lat, long, place } = useSelector((state: RootState) => state.weather);
+  const { place } = useSelector((state: RootState) => state.weather);
   const dispatch = useDispatch();
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -51,10 +43,6 @@ const SearchSection = () => {
     searchSuggestion[] | undefined
   >([]);
 
-  console.log("searchsuggestions: ", searchSuggestions);
-  console.log("lat: ", lat);
-  console.log("lon: ", long);
-
   const handleInputChange = (e: any) => {
     setSearchValue(e.target.value);
     setOpen(true);
@@ -82,7 +70,7 @@ const SearchSection = () => {
 
   return (
     <div className="w-full space-y-6">
-      <div className="w-full flex items-center justify-between">
+      <div className="w-full space-y-2 flex flex-col md:flex-row md:items-center justify-between">
         <p className="text-4xl font-bold text-[rgb(47,93,138)]">
           Know Your Weather
         </p>
@@ -107,15 +95,6 @@ const SearchSection = () => {
             defaultValue={searchValue}
           />
         </form>
-
-        {/* <div className="absolute top-[200px]">
-          <ComboboxDropdownMenu
-            handleOption={handleOption}
-            open={open}
-            setOpen={setOpen}
-            suggestions={searchSuggestions ? searchSuggestions : []}
-          />
-        </div> */}
 
         {open && searchSuggestions && searchSuggestions.length > 0 && (
           <ul className="absolute z-30 top-14 space-y-2 shadow border border-border rounded-lg bg-white p-2 w-[400px] text-sm text-slate-400">
