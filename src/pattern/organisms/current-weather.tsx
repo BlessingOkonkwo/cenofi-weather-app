@@ -21,32 +21,26 @@ const CurrentWeather = ({}: IProps) => {
       </div>
 
       {weather && weather.weather && (
-        <div className="space-y-4 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center md:items-start justify-between gap-3">
-          <div className="flex-1">
-            <CurrentWeatherStatus
-              city={place}
-              weatherID={weather?.weather[0].id}
-              mainTemp={Math.round(weather?.main?.temp)}
-              weatherDescription={
-                weather.weather && weather?.weather[0]?.description
-              }
-            />
-          </div>
+        <div className="space-y-4 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center md:items-start justify-between gap-6">
+          <CurrentWeatherStatus
+            city={place}
+            weatherID={weather?.weather[0].id}
+            mainTemp={Math.round(weather?.main?.temp)}
+            weatherDescription={
+              weather.weather && weather?.weather[0]?.description
+            }
+          />
 
-          <div className="flex-1">
-            <CurrentWeatherDetails
-              feelsLike={Math.round(weather.main.feels_like)}
-              tempMax={Math.round(weather.main.temp_max)}
-              tempMin={Math.round(weather.main.temp_min)}
-              humidity={weather.main.humidity}
-              windSpeed={weather.wind.speed}
-              pressure={weather.main.pressure}
-            />
-          </div>
+          <CurrentWeatherDetails
+            feelsLike={Math.round(weather.main.feels_like)}
+            tempMax={Math.round(weather.main.temp_max)}
+            tempMin={Math.round(weather.main.temp_min)}
+            humidity={weather.main.humidity}
+            windSpeed={weather.wind.speed}
+            pressure={weather.main.pressure}
+          />
 
-          <div className="flex-1">
-            <History />
-          </div>
+          <History />
         </div>
       )}
     </div>
