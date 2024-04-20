@@ -19,6 +19,7 @@ import Spinner from "@/pattern/atoms/icons/spinner";
 
 export default function Home() {
   const dispatch = useDispatch();
+  const [userPosition, setUserPosition] = useState<{ lat: number; long: number }>();
   const { lat, long } = useSelector((state: RootState) => state.weather);
 
   const {
@@ -48,34 +49,30 @@ export default function Home() {
               long: position.coords.longitude,
             })
           );
+          setUserPosition({
+            lat: position.coords.latitude,
+            long: position.coords.longitude,
+          });
         },
         function (error) {
           // abuja added by default
           dispatch(setLocation({ lat: 9.0570752, long: 7.4514432 }));
         }
       );
-
-      if (location && location.length > 0) {
-        dispatch(
-          setPlace(
-            `${location[0].name}, ${location[0].state}, ${location[0].country}`
-          )
-        );
-      }
     }
     if (weatherData) {
       let id = `${weatherData.id}/${round(lat)}/${round(long)}`;
       dispatch(setWeather({ id, weather: weatherData }));
       dispatch(setPlaces({ id, lat, long, name: weatherData.name }));
     }
-    // if (location && location.length > 0) {
-    //   dispatch(
-    //     setPlace(
-    //       `${location[0].name}, ${location[0].state}, ${location[0].country}`
-    //     )
-    //   );
-    // }
-  }, [lat, long, dispatch, weatherData, location]);
+    if (location && location.length > 0 && lat === userPosition?.lat && long === userPosition.long) {
+      dispatch(
+        setPlace(
+          `${location[0].name}, ${location[0].state}, ${location[0].country}`
+        )
+      );
+    }
+  }, [lat, long, dispatch, weatherData, location, userPosition]);
 
   return (
     <main className="p-">
