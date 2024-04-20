@@ -31,7 +31,7 @@ const WeatherForecast: React.FC = () => {
       <p className="text-2xl font-medium text-[hsla(216,10%,48%,1)]">
         Extended Forecast
       </p>
-      <div className="grid grid-cols-2 md:grid-cols-5 items-center justify-between gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 items-center justify-between gap-4">
         {weatherData?.list?.map((item, idx) => {
           if (item.dt_txt.includes("12:00:00")) {
             return (
