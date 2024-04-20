@@ -19,9 +19,7 @@ import Spinner from "@/pattern/atoms/icons/spinner";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { lat, long } = useSelector(
-    (state: RootState) => state.weather
-  );
+  const { lat, long } = useSelector((state: RootState) => state.weather);
 
   const {
     data: location,
@@ -56,19 +54,27 @@ export default function Home() {
           dispatch(setLocation({ lat: 9.0570752, long: 7.4514432 }));
         }
       );
+
+      if (location && location.length > 0) {
+        dispatch(
+          setPlace(
+            `${location[0].name}, ${location[0].state}, ${location[0].country}`
+          )
+        );
+      }
     }
     if (weatherData) {
       let id = `${weatherData.id}/${round(lat)}/${round(long)}`;
       dispatch(setWeather({ id, weather: weatherData }));
       dispatch(setPlaces({ id, lat, long, name: weatherData.name }));
     }
-    if (location && location.length > 0) {
-      dispatch(
-        setPlace(
-          `${location[0].name}, ${location[0].state}, ${location[0].country}`
-        )
-      );
-    }
+    // if (location && location.length > 0) {
+    //   dispatch(
+    //     setPlace(
+    //       `${location[0].name}, ${location[0].state}, ${location[0].country}`
+    //     )
+    //   );
+    // }
   }, [lat, long, dispatch, weatherData, location]);
 
   return (

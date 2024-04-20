@@ -67,6 +67,7 @@ const SearchSection = () => {
     dispatch(setPlace(place.fullname));
     setSearchValue(place.fullname);
   };
+  console.log("place: ", place)
 
   return (
     <div className="w-full space-y-6">
@@ -97,7 +98,7 @@ const SearchSection = () => {
         </form>
 
         {open && searchSuggestions && searchSuggestions.length > 0 && (
-          <ul className="absolute z-30 top-14 space-y-2 shadow border border-border rounded-lg bg-white p-2 w-[400px] text-sm text-slate-400">
+          <ul className="absolute z-30 top-14 space-y-2 shadow border border-border rounded-lg bg-white p-2 w-[200p] sm:w-[400px] text-sm text-slate-400">
             {searchSuggestions?.map((value, idx) => (
               <li
                 key={idx}
