@@ -47,18 +47,18 @@ export const placesHistorySlice = createSlice({
 
       if (exist) {
         return state; // No need to return a new state object since there's no change
+      } else {
+        let newPlaces = [...state.places, { id, lat, long, name }];
+        if (newPlaces.length > 6) {
+          newPlaces = newPlaces.slice(-5);
+        }
+
+        // return { ...state, places: newPlaces };
+
+        state.places = newPlaces;
+
+        setHistoryDetails(newPlaces);
       }
-
-      let newPlaces = [...state.places, { id, lat, long, name }];
-      if (newPlaces.length > 3) {
-        newPlaces = newPlaces.slice(-3);
-      }
-
-      // return { ...state, places: newPlaces };
-
-      state.places = newPlaces;
-
-      setHistoryDetails(newPlaces);
     },
   },
 });

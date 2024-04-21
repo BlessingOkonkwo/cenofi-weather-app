@@ -19,7 +19,10 @@ import Spinner from "@/pattern/atoms/icons/spinner";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const [userPosition, setUserPosition] = useState<{ lat: number; long: number }>();
+  const [userPosition, setUserPosition] = useState<{
+    lat: number;
+    long: number;
+  }>();
   const { lat, long } = useSelector((state: RootState) => state.weather);
 
   const {
@@ -61,11 +64,16 @@ export default function Home() {
       );
     }
     if (weatherData) {
-      let id = `${weatherData.id}/${round(lat)}/${round(long)}`;
+      let id = `${round(lat)}/${round(long)}`;
       dispatch(setWeather({ id, weather: weatherData }));
-      dispatch(setPlaces({ id, lat, long, name: weatherData.name }));
+      // dispatch(setPlaces({ id, lat, long, name: weatherData.name }));
     }
-    if (location && location.length > 0 && lat === userPosition?.lat && long === userPosition.long) {
+    if (
+      location &&
+      location.length > 0 &&
+      lat === userPosition?.lat &&
+      long === userPosition.long
+    ) {
       dispatch(
         setPlace(
           `${location[0].name}, ${location[0].state}, ${location[0].country}`
@@ -73,6 +81,13 @@ export default function Home() {
       );
     }
   }, [lat, long, dispatch, weatherData, location, userPosition]);
+
+  useEffect(() => {
+    if (weatherData) {
+      let id = `${round(lat)}/${round(long)}`;
+      dispatch(setPlaces({ id, lat, long, name: weatherData?.name }));
+    }
+  }, [weatherData]);
 
   return (
     <main className="p-">
