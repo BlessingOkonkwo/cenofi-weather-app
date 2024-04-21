@@ -57,15 +57,16 @@ const SearchSection = () => {
     })) as searchSuggestion[];
     setSearchSuggestions(searchSuggestions);
 
-    if (searchSuggestions && searchSuggestions.length > 0) {
-      setOpen(true);
-    }
+    // if (searchSuggestions && searchSuggestions.length > 0) {
+    //   setOpen(true);
+    // }
   }, [suggestionsData]);
 
   const handleOption = (place: searchSuggestion) => {
     dispatch(setLocation({ lat: place.lat, long: place.long }));
     dispatch(setPlace(place.fullname));
     setSearchValue(place.fullname);
+    setOpen(false);
   };
 
   return (
