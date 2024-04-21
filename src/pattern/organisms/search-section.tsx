@@ -11,7 +11,7 @@ import { setLocation, setPlace } from "@/redux/slices/weather-slice";
 const SearchSection = () => {
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string>("");
-  const { place } = useSelector((state: RootState) => state.weather);
+  const { place, userLocation } = useSelector((state: RootState) => state.weather);
   const dispatch = useDispatch();
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -67,7 +67,6 @@ const SearchSection = () => {
     dispatch(setPlace(place.fullname));
     setSearchValue(place.fullname);
   };
-  console.log("place: ", place)
 
   return (
     <div className="w-full space-y-6">
@@ -79,7 +78,7 @@ const SearchSection = () => {
           <span>
             <MapPin />
           </span>
-          {place}
+          {userLocation}
         </div>
       </div>
 
@@ -93,7 +92,7 @@ const SearchSection = () => {
             name="location"
             onChange={handleInputChange}
             value={searchValue}
-            defaultValue={searchValue}
+            // defaultValue={searchValue}
           />
         </form>
 

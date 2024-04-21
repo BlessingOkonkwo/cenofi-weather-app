@@ -40,7 +40,9 @@ const CurrentWeather = ({}: IProps) => {
             pressure={weather.main.pressure}
           />
 
-          <History />
+          <div className="md:col-span-2 xl:col-span-1">
+            <History />
+          </div>
         </div>
       )}
     </div>

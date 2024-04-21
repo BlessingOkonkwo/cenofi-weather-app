@@ -1,30 +1,33 @@
+"use client";
+import { useEffect } from "react";
 import HistoryItem from "../molecules/history-item";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { IPlace } from "@/redux/slices/history-slice";
+import { round } from "@/lib/utils";
+import { setPlaces } from "@/redux/slices/history-slice";
 
 const History = () => {
+  const dispatch = useDispatch();
   const { places } = useSelector((state: RootState) => state.history);
-  const { id } = useSelector((state: RootState) => state.weather);
-  const [history, setHistory] = useState(places);
+  const { lat, long, place } = useSelector((state: RootState) => state.weather);
 
   useEffect(() => {
-    setHistory(places.filter((place) => place.id !== id));
-  }, [id, places]);
+    let id = `${round(lat)}/${round(long)}`;
+    dispatch(setPlaces({ id, lat, long, name: place }));
+  }, [lat, long, place, dispatch]);
 
   return (
     <>
-      {history.length > 0 && (
-        <div className="flex flex-col w-full lg:w-[20rem] relative space-y-6 bg-[rgb(56,200,230,20%)] rounded-lg py-2 px-2">
-          <h2 className="text-xl font-semibold text-[hsla(216,10%,48%,1)]">Search History</h2>
+      {places.length > 0 && (
+        <div className="flex flex-col w-full relative space-y-6 bg-[rgb(56,200,230,20%)] rounded-lg py-2 px-2">
+          <h2 className="text-xl font-semibold text-[hsla(216,10%,48%,1)]">
+            Search History
+          </h2>
 
           <div className="h-full w-full flex flex-col gap-3">
-            {places
-              .filter((place) => place.id !== id)
-              .map((place) => (
-                <HistoryItem key={place.id} place={place} />
-              ))}
+            {places.map((place) => (
+              <HistoryItem key={place.id} place={place} />
+            ))}
           </div>
         </div>
       )}

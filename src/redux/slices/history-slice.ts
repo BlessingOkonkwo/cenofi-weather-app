@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import LocalStore, { setHistoryDetails } from "@/lib/helpers/session-manager";
+import { setHistoryDetails } from "@/lib/helpers/session-manager";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface IPlace {
@@ -32,28 +32,12 @@ export const placesHistorySlice = createSlice({
     ) => {
       const { id, lat, long, name } = action.payload;
 
-      // const exist = state.places.some((place) => place.id === id);
-
-      // if (exist) {
-      //   return { places: [...state.places] };
-      // }
-
-      // let newPlaces = [...state.places, { id, lat, long, name }];
-      // if (newPlaces.length > 3) {
-      //   newPlaces = newPlaces.slice(-3);
-      // }
-
       const exist = new Set(state.places.map((place) => place.id)).has(id);
 
       if (exist) {
         return state; // No need to return a new state object since there's no change
       } else {
-        let newPlaces = [...state.places, { id, lat, long, name }];
-        if (newPlaces.length > 6) {
-          newPlaces = newPlaces.slice(-5);
-        }
-
-        // return { ...state, places: newPlaces };
+        let newPlaces = [...state.places.slice(-4), { id, lat, long, name }];
 
         state.places = newPlaces;
 

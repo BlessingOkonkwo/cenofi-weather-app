@@ -1,17 +1,14 @@
 "use client";
 import WeatherTemplate from "@/pattern/templates/weather-template";
 import { RootState } from "@/redux/store";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setLocation,
   setWeather,
-  setImage,
-  setNameImageOptional,
   setPlace,
+  setUserLocation,
 } from "@/redux/slices/weather-slice";
-import { setPlaces } from "@/redux/slices/history-slice";
 import { useGetLatLongQuery } from "@/redux/services/get-location.api-slice";
 import { useGetCurrentWeatherQuery } from "@/redux/services/get-weather.api-slice";
 import { round } from "@/lib/utils";
@@ -22,25 +19,8 @@ export default function Home() {
   const [userPosition, setUserPosition] = useState<{
     lat: number;
     long: number;
-  }>();
-  const { lat, long } = useSelector((state: RootState) => state.weather);
-
-  const {
-    data: location,
-    isLoading,
-    isSuccess,
-    isError,
-  } = useGetLatLongQuery({
-    lat,
-    long,
-  });
-
-  const {
-    data: weatherData,
-    isLoading: isWeatherLoading,
-    isSuccess: isWeatherSuccess,
-    isError: isWeatherError,
-  } = useGetCurrentWeatherQuery({ lat, long });
+  }>({ lat: 0, long: 0 });
+  const { lat, long, place } = useSelector((state: RootState) => state.weather);
 
   useEffect(() => {
     if (!lat && !long) {
@@ -63,11 +43,19 @@ export default function Home() {
         }
       );
     }
-    if (weatherData) {
-      let id = `${round(lat)}/${round(long)}`;
-      dispatch(setWeather({ id, weather: weatherData }));
-      // dispatch(setPlaces({ id, lat, long, name: weatherData.name }));
-    }
+  }, [lat, long, dispatch, userPosition]);
+
+  const {
+    data: location,
+    isLoading,
+    isSuccess,
+    isError,
+  } = useGetLatLongQuery({
+    lat: userPosition.lat,
+    long: userPosition.long,
+  });
+
+  useEffect(() => {
     if (
       location &&
       location.length > 0 &&
@@ -80,14 +68,28 @@ export default function Home() {
         )
       );
     }
-  }, [lat, long, dispatch, weatherData, location, userPosition]);
+    if (location && location.length > 0) {
+      dispatch(
+        setUserLocation(
+          `${location[0].name}, ${location[0].state}, ${location[0].country}`
+        )
+      );
+    }
+  });
+
+  const {
+    data: weatherData,
+    isLoading: isWeatherLoading,
+    isSuccess: isWeatherSuccess,
+    isError: isWeatherError,
+  } = useGetCurrentWeatherQuery({ lat, long });
 
   useEffect(() => {
     if (weatherData) {
       let id = `${round(lat)}/${round(long)}`;
-      dispatch(setPlaces({ id, lat, long, name: weatherData?.name }));
+      dispatch(setWeather({ id, weather: weatherData }));
     }
-  }, [weatherData]);
+  }, [lat, long, weatherData]);
 
   return (
     <main className="p-">

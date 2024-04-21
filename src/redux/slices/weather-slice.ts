@@ -8,8 +8,7 @@ export interface IWeatherSlice {
   place: string;
   weather: ICurrentWeatherResponse;
   forecast: IForecastWeatherResponse;
-  image: Image;
-  image_name: string;
+  userLocation: string;
 }
 
 const initialState: IWeatherSlice = {
@@ -19,8 +18,7 @@ const initialState: IWeatherSlice = {
   place: "",
   weather: {} as ICurrentWeatherResponse,
   forecast: {} as IForecastWeatherResponse,
-  image: {} as Image,
-  image_name: "",
+  userLocation: ""
 };
 
 export const weatherSlice = createSlice({
@@ -51,11 +49,8 @@ export const weatherSlice = createSlice({
       state.id = action.payload.id;
       state.forecast = action.payload.weather;
     },
-    setImage: (state, action) => {
-      state.image = action.payload;
-    },
-    setNameImageOptional: (state, action) => {
-      state.image_name = action.payload;
+    setUserLocation: (state, action) =>{
+      state.userLocation = action.payload;
     },
   },
 });
@@ -66,8 +61,7 @@ export const {
   setPlace,
   setWeather,
   setForecast,
-  setImage,
-  setNameImageOptional,
+  setUserLocation
 } = weatherSlice.actions;
 
 export default weatherSlice.reducer;

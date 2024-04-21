@@ -52,23 +52,7 @@ const LocalStore = {
 };
 
 /**
- * Function that sets session token after Login in Local Storage
- */
-export const setSessionToken = (value: string) => {
-  const key = `${process.env.NEXT_PUBLIC_SESSION_TOKEN}`;
-  return LocalStore.setItem({ key, value });
-};
-
-/**
- * Function that gets session token from local storage
- */
-export const getSessionToken = () => {
-  const key = `${process.env.NEXT_PUBLIC_SESSION_TOKEN}`;
-  return LocalStore.getItem({ key });
-};
-
-/**
- * Function that gets session token from local storage
+ * Function that gets search history from local storage
  */
 export const getHistoryDetails = () => {
   const key = `place-storage`;
@@ -79,6 +63,9 @@ export const getHistoryDetails = () => {
   //   return JSON.parse(LocalStore.getItem({ key })) as IPlace[];
 };
 
+/**
+ * Function that sets search history to local storage
+ */
 export const setHistoryDetails = (places: IPlace[]) => {
   const key = `place-storage`;
   return LocalStore.setItem({ key, value: places });
